@@ -2,8 +2,8 @@ import UserService from '@/services/user'
 import resolver from '@/utils/resolver'
 import type { Context } from 'koa'
 
-class UserController {
-  async getUserList(ctx: Context) {
+class ArticleController {
+  async getArticleList(ctx: Context) {
     const {
       request: { query },
     } = ctx
@@ -14,4 +14,4 @@ class UserController {
   }
 }
 
-export default new UserController()
+export default new ArticleController()

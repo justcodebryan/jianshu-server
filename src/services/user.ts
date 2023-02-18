@@ -1,18 +1,44 @@
-import redis from '@/utils/redis'
+import User from '@/models/user'
+import type { IUserSchema } from '@/types/user'
 
 class UserService {
-  async getUserInfo(assetIdList: string[]) {
-    return new Promise<string[]>((resolve, reject) => {
-      redis
-        .mget(assetIdList || [])
-        .then((result) => {
-          resolve(result)
-        })
-        .catch((err) => {
-          console.log(err)
-          reject(err)
-        })
-    })
+  async getUserList() {
+    const users: IUserSchema[] = await User.find()
+    if (!users) {
+      throw new Error()
+    }
+    return users
+  }
+
+  async getUserInfo(id: string) {
+    const user: IUserSchema | null = await User.findById(id)
+    if (!user) {
+      throw new Error()
+    }
+    return user
+  }
+
+  async updateUserInfo(id: string, data: IUserSchema) {
+    const user: IUserSchema | null = await User.findByIdAndUpdate(id, data, { new: true })
+    if (!user) {
+      throw new Error()
+    }
+    return user
+  }
+
+  async addUser(data: IUserSchema) {
+    const user: IUserSchema = await User.create(data)
+    if (!user) {
+      throw new Error()
+    }
+    return user
+  }
+
+  async deleteUser(id: string) {
+    const user: IUserSchema | null = await User.findByIdAndDelete(id)
+    if (!user) {
+      throw new Error()
+    }
   }
 }
 
