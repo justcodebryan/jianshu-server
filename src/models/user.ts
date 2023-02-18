@@ -1,6 +1,8 @@
+import type { IUserModel, IUserSchema } from '@/types/user'
+import type { Schema } from 'mongoose'
 import mongoose from 'mongoose'
 
-const UserSchema = new mongoose.Schema({
+const UserSchema: Schema<IUserSchema> = new mongoose.Schema({
   avatar_source: String,
   id: Number,
   is_following_user: Boolean,
@@ -10,6 +12,6 @@ const UserSchema = new mongoose.Schema({
   total_wordage: Number,
 })
 
-const User = mongoose.model('User', UserSchema)
+const User: IUserModel = mongoose.model<IUserSchema>('User', UserSchema)
 
 export default User

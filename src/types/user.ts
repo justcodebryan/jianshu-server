@@ -1,4 +1,6 @@
-export type User = {
+import type { Document, Model } from 'mongoose'
+
+export interface IUserSchema extends Document {
   avatar_source: string
   id: number
   is_following_user: boolean
@@ -7,3 +9,5 @@ export type User = {
   total_likes_count: number
   total_wordage: number
 }
+
+export type IUserModel = Model<IUserSchema>

@@ -2,14 +2,11 @@ import mongoose from 'mongoose'
 
 const connect = async () => {
   try {
-    mongoose.connect('mongodb://localhost/mydatabase', {
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
-    })
-    console.log('Connected to MongoDB')
+    await mongoose.connect('mongodb://localhost/jianshu-db')
+    console.log('[mongo]: Connected to MongoDB')
   } catch (err) {
-    console.error('Error connecting to MongoDB:', err)
+    console.error('[mongo]: Error connecting to MongoDB:', err)
   }
 }
 
-module.exports = { connect }
+export default connect
