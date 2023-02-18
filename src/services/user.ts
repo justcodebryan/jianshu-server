@@ -1,17 +1,7 @@
-import redis from '@/utils/redis'
-
 class UserService {
-  async getUserInfo(assetIdList: string[]) {
+  async getUserInfo(userIds: string[]) {
     return new Promise<string[]>((resolve, reject) => {
-      redis
-        .mget(assetIdList || [])
-        .then((result) => {
-          resolve(result)
-        })
-        .catch((err) => {
-          console.log(err)
-          reject(err)
-        })
+      console.log(userIds)
     })
   }
 }
