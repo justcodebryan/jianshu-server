@@ -25,7 +25,7 @@ class UserService {
   }
 
   async updateUser(id: string, data: UserRequestParams) {
-    const user: IUserSchema | null = await User.findByIdAndUpdate(id, data, { new: true })
+    const user: IUserSchema | null = await User.findByIdAndUpdate(id, { ...data }, { new: true })
     if (!user) {
       throw new Error()
     }
@@ -33,7 +33,7 @@ class UserService {
   }
 
   async addUser(data: UserRequestParams) {
-    const user: IUserSchema = await User.create(data)
+    const user: IUserSchema = await User.create({ ...data })
     if (!user) {
       throw new Error()
     }

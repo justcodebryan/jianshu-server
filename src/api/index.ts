@@ -1,15 +1,19 @@
 import type { Context, EmptyObject } from '@/types/base'
-import { loadSubRouterList } from '@/utils/api'
+import UserController from '@/controllers/user'
 import Router from 'koa-router'
 
-import routerV1 from './v1'
-
 const rootRouter = new Router<EmptyObject, Context>({
-  prefix: '/api',
+  prefix: '/api/v1',
 })
 
-const subRouterList = [routerV1]
+// const subRouterList = [routerV1]
 
-loadSubRouterList(rootRouter, subRouterList)
+// loadSubRouterList(rootRouter, subRouterList)
+
+rootRouter.get('/users/', UserController.getUserList)
+rootRouter.get('/users/:id', UserController.getUser)
+rootRouter.post('/users', UserController.addUser)
+rootRouter.put('/users/:id', UserController.updateUser)
+rootRouter.delete('/users/:id', UserController.deleteUser)
 
 export default rootRouter

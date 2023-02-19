@@ -3,16 +3,34 @@ require('module-alias/register')
 import Koa from 'koa'
 import siteConfig from './configs/siteConfig'
 import { DEFAULT_PORT } from './utils/constants'
-import initRouter from './core/initRouter'
-import initMiddleware from './core/initMiddleware'
+import initRouter from './utils/initRouter'
 import connect from './utils/mongoose'
-import type { Context, EmptyObject } from './types/base'
+import cors from 'koa2-cors'
+import bodyParser from 'koa-bodyparser'
+import logger from 'koa-logger'
+import { errorHandler } from './utils/errorHandler'
+
 const port = Number(siteConfig.port) || DEFAULT_PORT
 
-const app = new Koa<EmptyObject, Context>()
+const app = new Koa()
 
-initMiddleware(app)
+// Load Middleware
+app.use(cors())
+app.use(bodyParser())
+app.use(errorHandler())
+app.use(
+  logger({
+    transporter: (str) => {
+      console.log(`[http]: ${str}`)
+    },
+  })
+)
+app.on('error', console.error)
+
+// Init Router
 initRouter(app)
+
+// connect to MongoDB
 connect()
 
 const server = app.listen(port)
