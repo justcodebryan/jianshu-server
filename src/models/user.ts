@@ -4,7 +4,11 @@ import mongoose from 'mongoose'
 
 const UserSchema: Schema<IUserSchema> = new mongoose.Schema({
   avatar_source: String,
-  id: Number,
+  id: {
+    type: Number,
+    unique: true,
+    auto: true,
+  },
   is_following_user: Boolean,
   nickname: String,
   slug: String,

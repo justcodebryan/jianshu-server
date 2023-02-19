@@ -1,11 +1,11 @@
-import type mongoose from 'mongoose'
 import type { Document, Model } from 'mongoose'
+import type { IUserSchema } from './user'
 
 export interface IArticleSchema extends Document {
   title: string
   abstract: string
   content: string
-  user: mongoose.Types.ObjectId
+  user: IUserSchema['_id']
 }
 
 export type IArticleModel = Model<IArticleSchema>
