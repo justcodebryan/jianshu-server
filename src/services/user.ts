@@ -1,16 +1,22 @@
 import User from '@/models/user'
-import type { IUserSchema } from '@/types/user'
+import type { IUserSchema, UserRequestParams } from '@/types/user'
 
 class UserService {
-  async getUserList() {
-    const users: IUserSchema[] = await User.find()
+  async getUserList(page = 1, pageSize = 10) {
+    const skip = (page - 1) * pageSize
+    const total: number = await User.countDocuments()
+    const users: IUserSchema[] = await User.find().skip(skip).limit(pageSize)
+
     if (!users) {
       throw new Error()
     }
-    return users
+    return {
+      items: users,
+      total,
+    }
   }
 
-  async getUserInfo(id: string) {
+  async getUser(id: string) {
     const user: IUserSchema | null = await User.findById(id)
     if (!user) {
       throw new Error()
@@ -18,16 +24,16 @@ class UserService {
     return user
   }
 
-  async updateUserInfo(id: string, data: IUserSchema) {
-    const user: IUserSchema | null = await User.findByIdAndUpdate(id, data, { new: true })
+  async updateUser(id: string, data: UserRequestParams) {
+    const user: IUserSchema | null = await User.findByIdAndUpdate(id, { ...data }, { new: true })
     if (!user) {
       throw new Error()
     }
     return user
   }
 
-  async addUser(data: IUserSchema) {
-    const user: IUserSchema = await User.create(data)
+  async addUser(data: UserRequestParams) {
+    const user: IUserSchema = await User.create({ ...data })
     if (!user) {
       throw new Error()
     }

@@ -6,5 +6,9 @@ const router = new Router({
 })
 
 router.get('/', ArticleController.getArticleList)
+router.get('/:id', ArticleController.getArticle)
+router.post('/', ArticleController.addArticle)
+router.put('/:id', ArticleController.updateArticle)
+router.delete('/:id', ArticleController.deleteArticle)
 
 export default router
