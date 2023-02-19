@@ -1,5 +1,6 @@
 import UserService from '@/services/user'
-import type { UserRequestData } from '@/types/user'
+import type { UserRequestParams } from '@/types/user'
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/utils/constants'
 import resolver from '@/utils/resolver'
 import type { Context } from 'koa'
 
@@ -9,8 +10,8 @@ class UserController {
       request: { query },
     } = ctx
 
-    const page = query.page ? parseInt(query.page as string) : 1
-    const pageSize = query.pageSize ? parseInt(query.page as string) : 1
+    const page = query.page ? parseInt(query.page as string) : DEFAULT_PAGE
+    const pageSize = query.pageSize ? parseInt(query.page as string) : DEFAULT_PAGE_SIZE
     const res = await UserService.getUserList(page, pageSize)
 
     ctx.body = resolver.success(res)
@@ -23,7 +24,7 @@ class UserController {
 
     const { id } = query
 
-    const res = await UserService.getUserInfo(id as string)
+    const res = await UserService.getUser(id as string)
 
     ctx.body = resolver.success(res)
   }
@@ -33,11 +34,34 @@ class UserController {
       request: { body },
     } = ctx
 
-    const data = body as UserRequestData
+    const data = body as UserRequestParams
 
     const res = await UserService.addUser(data)
 
     ctx.body = resolver.success(res)
+  }
+
+  async updateUser(ctx: Context) {
+    const {
+      request: { body },
+      params,
+    } = ctx
+
+    const { id } = params
+    const data = body as UserRequestParams
+
+    const res = await UserService.updateUser(id, data)
+    ctx.body = resolver.success(res)
+  }
+
+  async deleteUser(ctx: Context) {
+    const { params } = ctx
+
+    const { id } = params
+
+    await UserService.deleteUser(id)
+
+    ctx.body = resolver.success()
   }
 }
 

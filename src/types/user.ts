@@ -12,7 +12,7 @@ export interface UserRequiredParams {
   nickname: string
 }
 
-export type UserRequestData = UserRequiredParams & Partial<UserOptionalParams>
+export type UserRequestParams = UserRequiredParams & Partial<UserOptionalParams>
 
 export type IUserSchema = Document & UserRequiredParams & Partial<UserOptionalParams>
 
