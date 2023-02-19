@@ -8,7 +8,7 @@ import connect from './utils/mongoose'
 import cors from 'koa2-cors'
 import bodyParser from 'koa-bodyparser'
 import logger from 'koa-logger'
-import { errorHandler } from './utils/errorHandler'
+import errorHandler from './utils/errorHandler'
 
 const port = Number(siteConfig.port) || DEFAULT_PORT
 
@@ -33,7 +33,9 @@ initRouter(app)
 // connect to MongoDB
 connect()
 
+// Start Server
 const server = app.listen(port)
 console.log(`[server]: Server started at port ${port}...`)
 
+// Export server for unit test
 export default server
