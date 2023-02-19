@@ -18,11 +18,9 @@ class ArticleController {
   }
 
   async getArticle(ctx: Context) {
-    const {
-      request: { query },
-    } = ctx
+    const { params } = ctx
 
-    const { id } = query
+    const { id } = params
 
     const res = await ArticleService.getArticle(id as string)
 

@@ -18,11 +18,9 @@ class UserController {
   }
 
   async getUser(ctx: Context) {
-    const {
-      request: { query },
-    } = ctx
+    const { params } = ctx
 
-    const { id } = query
+    const { id } = params
 
     const res = await UserService.getUser(id as string)
 
