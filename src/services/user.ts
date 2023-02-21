@@ -34,7 +34,7 @@ class UserService {
   }
 
   async updateUser(id: string, data: UserRequestParams) {
-    const user: IUserSchema | null = await User.findByIdAndUpdate(id, { ...defaultUser, ...data }, { new: true })
+    const user: IUserSchema | null = await User.findByIdAndUpdate(id, { ...data }, { new: true })
     if (!user) {
       throw new Error()
     }

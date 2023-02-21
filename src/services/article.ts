@@ -36,7 +36,6 @@ class ArticleService {
     const article: IArticleSchema | null = await Article.findByIdAndUpdate(
       id,
       {
-        ...defaultArticle,
         ...data,
       },
       { new: true }
