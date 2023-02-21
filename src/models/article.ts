@@ -6,6 +6,9 @@ const ArticleSchema: Schema<IArticleSchema> = new mongoose.Schema({
   title: String,
   abstract: String,
   content: String,
+  likes_count: Number,
+  view_count: Number,
+  comments_size: Number,
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 })
 

@@ -4,6 +4,9 @@ import type { IUserSchema } from './user'
 export interface ArticleOptionalParams {
   abstract?: string
   content?: string
+  comments_size?: number
+  likes_count?: number
+  view_count?: number
 }
 
 export interface ArticleRequiredParams {

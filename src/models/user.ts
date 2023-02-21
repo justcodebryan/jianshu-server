@@ -6,7 +6,6 @@ const UserSchema: Schema<IUserSchema> = new mongoose.Schema({
   avatar_source: String,
   is_following_user: Boolean,
   nickname: String,
-  slug: String,
   total_likes_count: Number,
   total_wordage: Number,
 })

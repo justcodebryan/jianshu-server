@@ -12,7 +12,8 @@ class ArticleController {
 
     const page = query.page ? parseInt(query.page as string) : DEFAULT_PAGE
     const pageSize = query.pageSize ? parseInt(query.pageSize as string) : DEFAULT_PAGE_SIZE
-    const res = await ArticleService.getArticleList(page, pageSize)
+    const userId = query.userId as string
+    const res = await ArticleService.getArticleList(page, pageSize, userId)
 
     ctx.body = resolver.success(res)
   }
