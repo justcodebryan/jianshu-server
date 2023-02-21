@@ -3,10 +3,11 @@ import type { ArticleRequestParams, IArticleSchema } from '@/types/article'
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/utils/constants'
 
 class ArticleService {
-  async getArticleList(page: number = DEFAULT_PAGE, pageSize: number = DEFAULT_PAGE_SIZE) {
+  async getArticleList(page: number = DEFAULT_PAGE, pageSize: number = DEFAULT_PAGE_SIZE, userId?: string) {
     const skip = (page - 1) * pageSize
     const total: number = await Article.countDocuments()
-    const articles: IArticleSchema[] = await Article.find().populate('user').skip(skip).limit(pageSize)
+    const query = userId ? { user: userId } : undefined
+    const articles: IArticleSchema[] = await Article.find(query).populate('user').skip(skip).limit(pageSize)
     return {
       items: articles,
       total,
