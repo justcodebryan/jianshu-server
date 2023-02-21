@@ -1,6 +1,15 @@
 import User from '@/models/user'
 import type { IUserSchema, UserRequestParams } from '@/types/user'
 
+const defaultUser: UserRequestParams = {
+  nickname: '',
+  is_following_user: false,
+  slug: '',
+  total_likes_count: 0,
+  total_wordage: 0,
+  avatar_source: '',
+}
+
 class UserService {
   async getUserList(page = 1, pageSize = 10) {
     const skip = (page - 1) * pageSize
@@ -25,7 +34,7 @@ class UserService {
   }
 
   async updateUser(id: string, data: UserRequestParams) {
-    const user: IUserSchema | null = await User.findByIdAndUpdate(id, { ...data }, { new: true })
+    const user: IUserSchema | null = await User.findByIdAndUpdate(id, { ...defaultUser, ...data }, { new: true })
     if (!user) {
       throw new Error()
     }
@@ -33,7 +42,7 @@ class UserService {
   }
 
   async addUser(data: UserRequestParams) {
-    const user: IUserSchema = await User.create({ ...data })
+    const user: IUserSchema = await User.create({ ...defaultUser, ...data })
     if (!user) {
       throw new Error()
     }

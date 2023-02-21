@@ -1,6 +1,16 @@
 import Article from '@/models/article'
 import type { ArticleRequestParams, IArticleSchema } from '@/types/article'
+
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/utils/constants'
+
+const defaultArticle: ArticleRequestParams = {
+  title: '',
+  abstract: '',
+  content: '',
+  comments_size: 0,
+  likes_count: 0,
+  view_count: 0,
+}
 
 class ArticleService {
   async getArticleList(page: number = DEFAULT_PAGE, pageSize: number = DEFAULT_PAGE_SIZE, userId?: string) {
@@ -23,7 +33,14 @@ class ArticleService {
   }
 
   async updateArticle(id: string, data: ArticleRequestParams) {
-    const article: IArticleSchema | null = await Article.findByIdAndUpdate(id, data, { new: true })
+    const article: IArticleSchema | null = await Article.findByIdAndUpdate(
+      id,
+      {
+        ...defaultArticle,
+        ...data,
+      },
+      { new: true }
+    )
     if (!article) {
       throw new Error()
     }
@@ -31,7 +48,10 @@ class ArticleService {
   }
 
   async addArticle(data: ArticleRequestParams) {
-    const article: IArticleSchema = await Article.create(data)
+    const article: IArticleSchema = await Article.create({
+      ...defaultArticle,
+      ...data,
+    })
     if (!article) {
       throw new Error()
     }
