@@ -1,66 +1,67 @@
-import UserService from '@/services/user'
-import type { UserRequestParams } from '@/types/user'
+import ArticleService from '@/services/article'
+import type { ArticleRequestParams } from '@/types/article'
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/utils/constants'
 import resolver from '@/utils/resolver'
 import type { Context } from 'koa'
 
-class UserController {
-  async getUserList(ctx: Context) {
+class ArticleController {
+  async getArticleList(ctx: Context) {
     const {
       request: { query },
     } = ctx
 
     const page = query.page ? parseInt(query.page as string) : DEFAULT_PAGE
     const pageSize = query.pageSize ? parseInt(query.pageSize as string) : DEFAULT_PAGE_SIZE
-    const res = await UserService.getUserList(page, pageSize)
+    const userId = query.userId as string
+    const res = await ArticleService.getArticleList(page, pageSize, userId)
 
     ctx.body = resolver.success(res)
   }
 
-  async getUser(ctx: Context) {
+  async getArticle(ctx: Context) {
     const { params } = ctx
 
     const { id } = params
 
-    const res = await UserService.getUser(id as string)
+    const res = await ArticleService.getArticle(id as string)
 
     ctx.body = resolver.success(res)
   }
 
-  async addUser(ctx: Context) {
+  async addArticle(ctx: Context) {
     const {
       request: { body },
     } = ctx
 
-    const data = body as UserRequestParams
+    const data = body as ArticleRequestParams
 
-    const res = await UserService.addUser(data)
+    const res = await ArticleService.addArticle(data)
 
     ctx.body = resolver.success(res)
   }
 
-  async updateUser(ctx: Context) {
+  async updateArticle(ctx: Context) {
     const {
       request: { body },
       params,
     } = ctx
 
     const { id } = params
-    const data = body as UserRequestParams
+    const data = body as ArticleRequestParams
 
-    const res = await UserService.updateUser(id, data)
+    const res = await ArticleService.updateArticle(id, data)
     ctx.body = resolver.success(res)
   }
 
-  async deleteUser(ctx: Context) {
+  async deleteArticle(ctx: Context) {
     const { params } = ctx
 
     const { id } = params
 
-    await UserService.deleteUser(id)
+    await ArticleService.deleteArticle(id)
 
     ctx.body = resolver.success()
   }
 }
 
-export default new UserController()
+export default new ArticleController()
